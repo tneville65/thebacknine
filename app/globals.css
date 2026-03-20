@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
 * { box-sizing: border-box; }
-
 html { scroll-behavior: auto; }
-
 body {
   background: #f5f0e8;
   color: #1a1a1a;
@@ -11,7 +9,6 @@ body {
   overflow-x: hidden;
   cursor: none;
 }
-
 .font-serif { font-family: var(--font-playfair), Georgia, serif; }
 
 /* Custom cursor */
@@ -23,43 +20,120 @@ body {
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: transform 0.1s;
 }
 .cursor-ring {
-  width: 36px; height: 36px;
-  border: 1.5px solid rgba(192, 57, 43, 0.4);
+  width: 40px; height: 40px;
+  border: 1.5px solid rgba(192, 57, 43, 0.35);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 9998;
   transform: translate(-50%, -50%);
 }
-
-/* Sky gradient */
-.sky-bg {
-  background: linear-gradient(180deg, #87CEEB 0%, #B0D9F5 40%, #D4EAF7 70%, #E8F4E8 100%);
+.cursor-ring.hovering {
+  width: 60px; height: 60px;
+  border-color: rgba(192,57,43,0.7);
+  background: rgba(192,57,43,0.05);
 }
 
-/* Fairway gradient */
-.fairway-bg {
-  background: linear-gradient(180deg, #2d5a27 0%, #3d7a35 40%, #4a9140 100%);
+/* Hero sky — layered CSS landscape */
+.hero-sky {
+  background:
+    /* Sun */
+    radial-gradient(circle 80px at 78% 22%, rgba(255,240,180,0.7) 0%, transparent 100%),
+    radial-gradient(circle 200px at 78% 22%, rgba(255,220,120,0.15) 0%, transparent 100%),
+    /* Sky gradient */
+    linear-gradient(180deg,
+      #1a6b9a 0%,
+      #3a8fc7 15%,
+      #60aad4 30%,
+      #87c4e0 50%,
+      #b5d8ea 65%,
+      #c8e6c0 80%,
+      #4a8a42 85%,
+      #3d7a35 100%
+    );
 }
 
-/* Input styling */
-input[type="range"] {
-  -webkit-appearance: none;
-  background: transparent;
+/* Fairway section */
+.fairway-section {
+  background: linear-gradient(180deg,
+    #2d5016 0%,
+    #3d6b20 20%,
+    #4a8230 50%,
+    #5a9a3a 80%,
+    #68b040 100%
+  );
 }
+
+/* Sky section */
+.open-sky {
+  background: linear-gradient(180deg,
+    #1565a8 0%,
+    #2e84c8 20%,
+    #5aaee0 45%,
+    #85c8f0 65%,
+    #a8d8f5 80%,
+    #c8eaf5 100%
+  );
+}
+
+/* Smooth section transitions */
+.section-transition {
+  clip-path: ellipse(100% 100% at 50% 0%);
+}
+
+/* Range input */
+input[type="range"] { -webkit-appearance: none; background: transparent; width: 100%; }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 20px; width: 20px;
+  height: 22px; width: 22px;
   border-radius: 50%;
   background: #c0392b;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(192,57,43,0.4);
+  box-shadow: 0 2px 8px rgba(192,57,43,0.5);
+  margin-top: -9px;
 }
 input[type="range"]::-webkit-slider-runnable-track {
   height: 4px;
-  background: rgba(0,0,0,0.15);
+  background: rgba(0,0,0,0.12);
   border-radius: 2px;
 }
+input[type="range"]::-moz-range-thumb {
+  height: 22px; width: 22px;
+  border-radius: 50%;
+  background: #c0392b;
+  cursor: pointer;
+  border: none;
+}
+
+/* Text shadow for sky readability */
+.sky-text { text-shadow: 0 2px 30px rgba(0,0,0,0.15), 0 1px 4px rgba(0,0,0,0.1); }
+
+/* Pinned section */
+.pin-spacer { overflow: visible !important; }
+
+/* Number animation */
+@keyframes countGlow {
+  0% { text-shadow: 0 0 0 rgba(192,57,43,0); }
+  50% { text-shadow: 0 0 40px rgba(192,57,43,0.4), 0 0 80px rgba(192,57,43,0.2); }
+  100% { text-shadow: 0 0 20px rgba(192,57,43,0.3); }
+}
+.number-glow { animation: countGlow 0.5s ease forwards; }
+
+/* Hover underline */
+.hover-line {
+  position: relative;
+  display: inline-block;
+}
+.hover-line::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #c0392b;
+  transition: width 0.4s ease;
+}
+.hover-line:hover::after { width: 100%; }
