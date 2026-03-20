@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
+import dynamic from "next/dynamic";
+const ClubSwing = dynamic(() => import("@/components/ClubSwing"), { ssr: false });
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -313,18 +315,20 @@ export default function Page() {
         {/* Fairway ground */}
         <div className="absolute bottom-0 left-0 right-0 h-1/4" style={{ background: "linear-gradient(0deg, #3d6b20, #5a9040)", borderRadius: "50% 50% 0 0 / 10px 10px 0 0" }} />
 
-        {/* Flag */}
-        <div className="absolute z-20" style={{ bottom: "18%", left: "62%" }}>
-          <motion.div initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }} style={{ originY: 1 }}>
-            <div className="w-px h-20 bg-gray-700 mx-auto" />
-            <div className="w-7 h-5 bg-[#c0392b] -mt-0.5" style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }} />
+        {/* Flag 1 — flag at TOP of pole */}
+        <div className="absolute z-20 flex flex-col items-center" style={{ bottom: "18%", left: "62%" }}>
+          <motion.div initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }} style={{ originY: 1 }} className="flex flex-col items-start">
+            <div className="w-7 h-5 bg-[#c0392b] mb-0" style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }} />
+            <div className="w-px h-20 bg-gray-700 ml-0" />
           </motion.div>
         </div>
 
-        {/* Second flag (distant) */}
-        <div className="absolute z-20 opacity-40" style={{ bottom: "22%", left: "80%" }}>
-          <div className="w-px h-12 bg-gray-700 mx-auto" />
-          <div className="w-5 h-3.5 bg-white -mt-0.5" style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }} />
+        {/* Flag 2 (distant) — flag at TOP of pole */}
+        <div className="absolute z-20 opacity-40 flex flex-col items-center" style={{ bottom: "22%", left: "80%" }}>
+          <div className="flex flex-col items-start">
+            <div className="w-5 h-3.5 bg-white mb-0" style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }} />
+            <div className="w-px h-12 bg-gray-700" />
+          </div>
         </div>
 
         {/* Hero text */}
@@ -335,16 +339,26 @@ export default function Page() {
             The KeyArx Group
           </motion.p>
 
-          <SplitReveal
-            text="The front nine"
-            delay={0.4}
-            className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-green-950 leading-none mb-2 sky-text"
-          />
-          <SplitReveal
-            text="is your career."
-            delay={0.65}
-            className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-green-900/45 leading-none italic mb-12 sky-text"
-          />
+          <div className="overflow-hidden mb-2">
+            <motion.h1
+              initial={{ y: "110%", opacity: 0 }}
+              animate={{ y: "0%", opacity: 1 }}
+              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-green-950 leading-none sky-text block"
+            >
+              The front nine
+            </motion.h1>
+          </div>
+          <div className="overflow-hidden mb-12">
+            <motion.h1
+              initial={{ y: "110%", opacity: 0 }}
+              animate={{ y: "0%", opacity: 1 }}
+              transition={{ duration: 1, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
+              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-green-900/45 leading-none italic sky-text block"
+            >
+              is your career.
+            </motion.h1>
+          </div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.7 }}>
             <MagneticBtn
@@ -370,20 +384,8 @@ export default function Page() {
         {/* Fairway texture lines */}
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0px, transparent 1px, transparent 60px)", backgroundSize: "60px 100%" }} />
 
-        {/* Ball on tee */}
-        <div className="absolute" style={{ bottom: "28%", left: "50%", transform: "translateX(-50%)" }}>
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, type: "spring", bounce: 0.5 }}
-            className="flex flex-col items-center"
-          >
-            <div className="w-7 h-7 rounded-full bg-white" style={{ boxShadow: "0 0 30px rgba(255,255,255,0.9), 0 4px 15px rgba(0,0,0,0.2)" }} />
-            <div className="w-1 h-7 rounded-full" style={{ background: "rgba(255,255,255,0.5)", marginTop: 2 }} />
-            <div className="w-10 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.2)", marginTop: 1 }} />
-          </motion.div>
-        </div>
+        {/* Club swing animation */}
+        <ClubSwing />
 
         {/* Trees silhouette */}
         <Trees className="z-10" opacity={0.5} />
@@ -399,8 +401,9 @@ export default function Page() {
             className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.15] mb-8 sky-text"
           />
           <FadeUp delay={0.3}>
-            <p className="text-white/55 text-xl leading-relaxed max-w-2xl mx-auto mb-14">
-              Not because of bad decisions.<br />Because nobody showed them a better structure.
+            <p className="text-white/70 text-xl md:text-2xl leading-relaxed max-w-2xl mx-auto mb-14">
+              Not because of bad decisions.<br />
+              <span className="text-white/50">Because nobody showed them a better structure.</span>
             </p>
           </FadeUp>
           <FadeUp delay={0.45}>
@@ -469,8 +472,8 @@ export default function Page() {
               whileInView={{ y: "0%" }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif font-bold text-[#c0392b] block sky-text"
-              style={{ fontSize: "clamp(3.5rem, 10vw, 8rem)", lineHeight: 1.0, textShadow: "0 4px 30px rgba(192,57,43,0.4)" }}
+              className="font-serif font-bold block"
+              style={{ fontSize: "clamp(4rem, 12vw, 9rem)", lineHeight: 1.0, color: "#c0392b", textShadow: "0 0 60px rgba(192,57,43,0.5), 0 4px 20px rgba(0,0,0,0.15)", WebkitTextStroke: "1px rgba(150,20,10,0.2)" }}
             >
               $30 million
             </motion.span>
