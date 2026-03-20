@@ -194,52 +194,62 @@ export default function ClubSwing() {
               fill="none"
             />
 
-            {/* Driver head — compact, modern shape */}
-            {/* Main body — slightly smaller than before */}
+            {/* WEDGE head — wider sole, compact, open loft */}
+            {/* Main body */}
             <path
-              d="M 118 244
-                 C 110 234 111 224 120 218
-                 C 128 213 144 211 158 215
-                 C 172 219 180 229 178 241
-                 C 176 252 164 258 150 258
-                 C 136 258 122 252 118 244 Z"
+              d="M 130 252
+                 C 126 244 127 236 134 230
+                 C 139 226 148 224 158 226
+                 C 166 228 170 234 170 242
+                 C 170 250 164 256 156 258
+                 C 146 260 132 258 130 252 Z"
               fill="url(#headGrad)"
-              stroke="rgba(130,145,165,0.55)"
+              stroke="rgba(130,145,165,0.5)"
               strokeWidth="1.2"
             />
-            {/* Surface sheen */}
+            {/* Sheen */}
             <path
-              d="M 118 244
-                 C 110 234 111 224 120 218
-                 C 128 213 144 211 158 215
-                 C 172 219 180 229 178 241
-                 C 176 252 164 258 150 258
-                 C 136 258 122 252 118 244 Z"
+              d="M 130 252
+                 C 126 244 127 236 134 230
+                 C 139 226 148 224 158 226
+                 C 166 228 170 234 170 242
+                 C 170 250 164 256 156 258
+                 C 146 260 132 258 130 252 Z"
               fill="url(#headSheen)"
             />
-            {/* Crown edge highlight */}
+            {/* Face — wedge face is more upright / open */}
             <path
-              d="M 122 230 C 130 220 150 216 164 222"
+              d="M 158 226 C 165 228 170 234 170 242 L 168 244 C 168 236 163 230 157 228 Z"
+              fill="rgba(215,225,238,0.25)"
+            />
+            {/* Face grooves */}
+            <line x1="158" y1="232" x2="169" y2="231" stroke="rgba(200,210,225,0.18)" strokeWidth="0.7" />
+            <line x1="158" y1="236" x2="169" y2="235" stroke="rgba(200,210,225,0.18)" strokeWidth="0.7" />
+            <line x1="158" y1="240" x2="169" y2="239" stroke="rgba(200,210,225,0.18)" strokeWidth="0.7" />
+            <line x1="158" y1="244" x2="169" y2="243" stroke="rgba(200,210,225,0.18)" strokeWidth="0.7" />
+            <line x1="158" y1="248" x2="169" y2="247" stroke="rgba(200,210,225,0.18)" strokeWidth="0.7" />
+            {/* Leading edge — sharp bottom edge of face */}
+            <path
+              d="M 130 252 L 170 242"
               fill="none"
-              stroke="rgba(215,225,235,0.3)"
+              stroke="rgba(200,215,230,0.5)"
               strokeWidth="1.2"
               strokeLinecap="round"
             />
-            {/* Face edge — bright line on striking face */}
+            {/* Bounce angle — sole curves back */}
             <path
-              d="M 158 215 C 170 219 178 229 178 241 L 176 243 C 176 232 168 222 157 218 Z"
-              fill="rgba(210,220,232,0.2)"
-            />
-            {/* Sole line */}
-            <path
-              d="M 124 252 Q 150 260 175 248"
+              d="M 130 252 Q 150 262 170 254"
               fill="none"
               stroke="rgba(100,110,130,0.4)"
               strokeWidth="0.75"
             />
-            {/* Weight port dots */}
-            <circle cx="130" cy="248" r="2" fill="rgba(80,90,110,0.6)" />
-            <circle cx="168" cy="244" r="2" fill="rgba(80,90,110,0.6)" />
+            {/* Cavity back detail */}
+            <path
+              d="M 133 246 Q 150 252 164 246"
+              fill="none"
+              stroke="rgba(80,90,110,0.35)"
+              strokeWidth="0.75"
+            />
           </g>
 
           {/* Ball on tee — inside SVG so it's clipped with section */}
