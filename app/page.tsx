@@ -466,18 +466,21 @@ export default function Page() {
             delay={0.2}
             className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-snug sky-text"
           />
-          <div className="overflow-hidden my-2">
-            <motion.span
-              initial={{ y: "110%" }}
-              whileInView={{ y: "0%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif font-bold block"
-              style={{ fontSize: "clamp(4rem, 12vw, 9rem)", lineHeight: 1.0, color: "#c0392b", textShadow: "0 0 60px rgba(192,57,43,0.5), 0 4px 20px rgba(0,0,0,0.15)", WebkitTextStroke: "1px rgba(150,20,10,0.2)" }}
+          <FadeUp delay={0.5} className="my-4">
+            <div
+              className="font-serif font-bold text-center"
+              style={{
+                fontSize: "clamp(4.5rem, 13vw, 10rem)",
+                lineHeight: 1.0,
+                color: "#cc2200",
+                textShadow: "2px 2px 0px rgba(120,10,0,0.4), 0 0 40px rgba(200,30,0,0.3)",
+                WebkitTextStroke: "2px rgba(100,0,0,0.15)",
+                letterSpacing: "-0.02em",
+              }}
             >
               $30 million
-            </motion.span>
-          </div>
+            </div>
+          </FadeUp>
           <SplitReveal
             text="mean something to you?"
             delay={0.8}
