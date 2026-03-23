@@ -184,6 +184,7 @@ function Calculator() {
   const seasonsToMatchKeyArx55 = Math.round(opt2 / (836 * 12));
   // How many to match Option 1?
   const seasonsToMatchOpt1_65 = Math.round(opt1 / (2200 * 12));
+  const seasonsToMatchOpt1_55 = Math.round(opt1 / (836 * 12));
 
   const fmt = (n: number) => "$" + n.toLocaleString();
 
