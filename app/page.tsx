@@ -568,13 +568,11 @@ export default function Page() {
           <FadeUp className="text-center mb-16">
             <p className="text-gray-400 text-xs uppercase tracking-[0.5em] mb-6">The back nine</p>
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-              Same investment.<br />
-              <span className="text-[#c0392b]">Different structure.</span><br />
-              <span className="text-[#c0392b] font-serif font-bold">
-                <CountUp end={30} prefix="$" suffix="M+ difference." duration={2.5} />
-              </span>
+              Create a Private Pension.<br />
+              <span className="text-[#c0392b]">Level up your income structure.</span><br />
+              <span className="text-[#c0392b] font-serif font-bold">Preserve your lifestyle.</span>
             </h2>
-            <p className="text-gray-500 mt-6 text-lg">Use the slider to see how your NFL pension compares.</p>
+            <p className="text-gray-500 mt-6 text-lg">Use the slider to see how your pension may compare.</p>
           </FadeUp>
 
           <FadeUp delay={0.15}>
