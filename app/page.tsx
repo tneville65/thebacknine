@@ -566,8 +566,7 @@ export default function Page() {
 
         <div className="max-w-3xl mx-auto px-8 pt-12">
           <FadeUp className="text-center mb-16">
-            <p className="text-gray-400 text-xs uppercase tracking-[0.5em] mb-4">The back nine</p>
-            <p className="font-serif text-gray-300 text-xl font-bold mb-4 tracking-tight">The Back Nine.</p>
+            <p className="text-gray-400 text-xs uppercase tracking-[0.5em] mb-6">The back nine</p>
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
               Create a Private Pension.<br />
               <span className="text-[#c0392b]">Level up your income structure.</span><br />
