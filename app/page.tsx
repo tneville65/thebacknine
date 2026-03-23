@@ -271,9 +271,7 @@ function Calculator() {
           <p className="text-gray-500 text-xs uppercase tracking-widest mb-3">To match the KeyArx program at age 65</p>
           <p className="font-serif text-5xl font-bold text-[#c0392b] mb-2">{seasonsToMatchKeyArx65}</p>
           <p className="text-gray-500 text-sm">Credited NFL seasons needed to equal <strong>{fmt(opt2)}/year</strong> from the pension alone</p>
-          <p className="text-gray-400 text-xs mt-3 italic">
-            Only {seasonsToMatchKeyArx55} seasons to match at age 55 rates — most players never reach {Math.min(seasonsToMatchKeyArx55, seasonsToMatchKeyArx65)}.
-          </p>
+
         </div>
 
         <div className="bg-[#c0392b]/5 rounded-xl p-5 text-center">
