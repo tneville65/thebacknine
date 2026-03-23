@@ -166,66 +166,122 @@ function SplitReveal({ text, className = "", delay = 0 }: { text: string; classN
 
 // ── CALCULATOR ────────────────────────────────────────────────────────────────
 function Calculator() {
-  const [annual, setAnnual] = useState(250000);
-  const ratio = annual / 250000;
-  const opt1 = Math.round(727819 * ratio);
-  const opt2 = Math.round(1318516 * ratio);
-  const diff = opt2 - opt1;
-  const lifetime = Math.round((opt2 - opt1) * 49);
+  const [seasons, setSeasons] = useState(5);
+
+  // NFLPA pension: $836/month per credited season, payable at 55
+  const nflMonthly55 = seasons * 836;
+  const nflAnnual55 = nflMonthly55 * 12;
+  // At 65: monthly nearly doubles (~$2,200/month per season based on NFL data)
+  const nflMonthly65 = seasons * 2200;
+  const nflAnnual65 = nflMonthly65 * 12;
+
+  // KeyArx static numbers (based on $250K/yr example)
+  const opt1 = 727819;
+  const opt2 = 1318516;
+
+  // How many credited seasons would equal KeyArx Option 2 (at age 65 rate)?
+  const seasonsToMatchKeyArx65 = Math.round(opt2 / (2200 * 12));
+  const seasonsToMatchKeyArx55 = Math.round(opt2 / (836 * 12));
+
   const fmt = (n: number) => "$" + n.toLocaleString();
 
   return (
-    <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 max-w-2xl mx-auto">
-      {/* Slider */}
-      <p className="text-gray-400 text-xs uppercase tracking-[0.3em] mb-3">Adjust your annual contribution</p>
-      <div className="flex items-baseline gap-3 mb-3">
-        <span className="font-serif text-5xl font-bold text-gray-900">{fmt(annual)}</span>
-        <span className="text-gray-400 text-base">/year</span>
-      </div>
-      <input type="range" min={50000} max={1000000} step={10000} value={annual}
-        onChange={e => setAnnual(Number(e.target.value))} className="w-full mb-10" />
+    <div className="max-w-2xl mx-auto space-y-6">
 
-      {/* Options */}
-      <div className="space-y-4 mb-8">
-        <div className="border border-gray-100 rounded-xl p-6 hover:border-gray-200 transition-colors">
-          <div className="flex justify-between items-center mb-1">
-            <span className="text-gray-500 text-sm">Option 1 — Overfunded Life Insurance</span>
-            <span className="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Tax-Free</span>
+      {/* Static KeyArx numbers */}
+      <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
+        <p className="text-gray-400 text-xs uppercase tracking-[0.3em] mb-6 text-center">Based on $250,000/year · 10-year program</p>
+
+        <div className="space-y-4 mb-6">
+          <div className="border border-gray-100 rounded-xl p-6">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-gray-500 text-sm">Option 1 — Overfunded Life Insurance</span>
+              <span className="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Tax-Free</span>
+            </div>
+            <div className="font-serif text-4xl font-bold text-gray-900 mt-2 tabular-nums">{fmt(opt1)}</div>
+            <div className="text-gray-400 text-xs mt-1">per year · age 51 to 100</div>
           </div>
-          <div className="font-serif text-4xl font-bold text-gray-900 mt-2 tabular-nums">{fmt(opt1)}</div>
-          <div className="text-gray-400 text-xs mt-1">per year · age 51 to 100</div>
+
+          <div className="border-2 border-[#c0392b] rounded-xl p-6 relative overflow-hidden bg-red-50/30">
+            <div className="absolute top-3 right-3 bg-[#c0392b] text-white text-[9px] uppercase tracking-widest px-3 py-1 rounded-full font-bold">Premium Financing</div>
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-gray-600 text-sm font-medium">Option 2 — Premium Financing</span>
+              <span className="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Tax-Free</span>
+            </div>
+            <div className="font-serif text-5xl font-bold text-[#c0392b] mt-2 tabular-nums">{fmt(opt2)}</div>
+            <div className="text-gray-500 text-xs mt-1">per year · age 51 to 100</div>
+          </div>
         </div>
 
-        <div className="border-2 border-[#c0392b] rounded-xl p-6 relative overflow-hidden bg-red-50/30">
-          <div className="absolute top-3 right-3 bg-[#c0392b] text-white text-[9px] uppercase tracking-widest px-3 py-1 rounded-full font-bold">Premium Financing</div>
-          <div className="flex justify-between items-center mb-1">
-            <span className="text-gray-600 text-sm font-medium">Option 2 — Premium Financing</span>
-            <span className="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Tax-Free</span>
-          </div>
-          <div className="font-serif text-5xl font-bold text-[#c0392b] mt-2 tabular-nums">{fmt(opt2)}</div>
-          <div className="text-gray-500 text-xs mt-1">per year · age 51 to 100</div>
+        {/* Disclosure */}
+        <div className="bg-gray-50 rounded-lg p-4 mb-6">
+          <p className="text-gray-400 text-[11px] leading-relaxed">
+            <strong className="text-gray-500">Disclosure:</strong> The figures above — $727,819/year and $1,318,516/year — are based on a specific illustrated example using a $250,000 annual contribution over 10 years. All numbers are subject to change based on individual premium, underwriting, and carrier terms. Eligibility for this program is not guaranteed and is subject to underwriting approval. Results will vary.
+          </p>
         </div>
+
+        <MagneticBtn
+          href="mailto:paul@keyarx.com?subject=The Back Nine — Let%27s Talk"
+          className="block w-full text-center bg-[#c0392b] hover:bg-[#a93226] text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all duration-200 hover:shadow-[0_8px_30px_rgba(192,57,43,0.4)]"
+        >
+          Talk to KeyArx
+        </MagneticBtn>
       </div>
 
-      {/* Gap */}
-      <motion.div
-        key={annual}
-        initial={{ opacity: 0.7, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
-        className="bg-gray-50 rounded-xl p-6 text-center mb-8"
-      >
-        <p className="text-gray-400 text-xs uppercase tracking-widest mb-2">The difference</p>
-        <p className="font-serif text-3xl font-bold text-gray-900">{fmt(diff)}<span className="text-gray-400 font-normal text-lg ml-2">more/year</span></p>
-        <p className="text-gray-400 text-sm mt-2">{fmt(lifetime)} additional lifetime income · 100% tax-free</p>
-      </motion.div>
+      {/* NFL Pension Comparison */}
+      <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
+        <p className="text-gray-400 text-xs uppercase tracking-[0.3em] mb-2 text-center">The NFL Pension — Put in Perspective</p>
+        <p className="text-gray-500 text-sm text-center leading-relaxed mb-8 max-w-lg mx-auto">
+          The league already knows athletes need a private pension. The NFLPA Retirement Plan (est. 1968) pays <strong className="text-gray-700">$836/month per Credited Season</strong> starting at age 55 — or nearly <strong className="text-gray-700">$2,200/month per season</strong> if you wait until 65.
+        </p>
 
-      <MagneticBtn
-        href="mailto:paul@keyarx.com?subject=The Back Nine — Let%27s Talk"
-        className="block w-full text-center bg-[#c0392b] hover:bg-[#a93226] text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all duration-200 hover:shadow-[0_8px_30px_rgba(192,57,43,0.4)]"
-      >
-        Talk to KeyArx
-      </MagneticBtn>
+        {/* Credited Seasons Slider */}
+        <div className="mb-2">
+          <div className="flex justify-between items-baseline mb-2">
+            <p className="text-gray-600 text-xs uppercase tracking-widest font-medium">Your Credited Seasons</p>
+            <span className="font-serif text-4xl font-bold text-gray-900">{seasons}</span>
+          </div>
+          <input
+            type="range"
+            min={3}
+            max={20}
+            step={1}
+            value={seasons}
+            onChange={e => setSeasons(Number(e.target.value))}
+            className="w-full mb-8"
+          />
+        </div>
+
+        {/* NFL pension results */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="bg-gray-50 rounded-xl p-5 text-center">
+            <p className="text-gray-400 text-xs uppercase tracking-widest mb-2">NFL Pension at 55</p>
+            <p className="font-serif text-2xl font-bold text-gray-700">{fmt(nflAnnual55)}</p>
+            <p className="text-gray-400 text-xs mt-1">per year</p>
+          </div>
+          <div className="bg-gray-50 rounded-xl p-5 text-center">
+            <p className="text-gray-400 text-xs uppercase tracking-widest mb-2">NFL Pension at 65</p>
+            <p className="font-serif text-2xl font-bold text-gray-700">{fmt(nflAnnual65)}</p>
+            <p className="text-gray-400 text-xs mt-1">per year</p>
+          </div>
+        </div>
+
+        {/* The comparison punchline */}
+        <div className="border-2 border-[#c0392b]/30 rounded-xl p-6 bg-red-50/20 text-center mb-4">
+          <p className="text-gray-500 text-xs uppercase tracking-widest mb-3">To match the KeyArx program at age 65</p>
+          <p className="font-serif text-5xl font-bold text-[#c0392b] mb-2">{seasonsToMatchKeyArx65}</p>
+          <p className="text-gray-500 text-sm">Credited NFL seasons needed to equal <strong>{fmt(opt2)}/year</strong> from the pension alone</p>
+          <p className="text-gray-400 text-xs mt-3 italic">
+            Only {seasonsToMatchKeyArx55} seasons to match at age 55 rates — most players never reach {Math.min(seasonsToMatchKeyArx55, seasonsToMatchKeyArx65)}.
+          </p>
+        </div>
+
+        <div className="bg-[#c0392b]/5 rounded-xl p-5 text-center">
+          <p className="text-gray-600 text-sm leading-relaxed">
+            The NFL pension is <strong>a start</strong> — not a plan. A KeyArx structure on a $250K/year contribution delivers <strong className="text-[#c0392b]">{fmt(opt2)}/year tax-free</strong> — more than most players will ever see from the league pension, regardless of how long they played.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -517,7 +573,7 @@ export default function Page() {
                 <CountUp end={30} prefix="$" suffix="M+ difference." duration={2.5} />
               </span>
             </h2>
-            <p className="text-gray-500 mt-6 text-lg">Move the slider. See what changes.</p>
+            <p className="text-gray-500 mt-6 text-lg">Use the slider to see how your NFL pension compares.</p>
           </FadeUp>
 
           <FadeUp delay={0.15}>
