@@ -293,24 +293,46 @@ export default function Page() {
   const ballRef = useRef<HTMLDivElement>(null);
   const skySection = useRef<HTMLDivElement>(null);
   const keyholeGroupRef = useRef<SVGGElement>(null);
+  const heroInnerRef = useRef<HTMLDivElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
+  const [shaftPts, setShaftPts] = useState("");
 
-  // Keyhole zoom — scales the SVG mask hole until the video fills the screen
+  // Keyhole zoom — GSAP pins the hero until the keyhole fully opens
   useEffect(() => {
     const grp = keyholeGroupRef.current;
-    const hero = heroRef.current;
-    if (!grp || !hero) return undefined;
+    const inner = heroInnerRef.current;
+    const text = heroTextRef.current;
+    if (!grp || !inner) return undefined;
+
     const w = window.innerWidth;
     const h = window.innerHeight;
-    gsap.set(grp, { svgOrigin: `${w * 0.5} ${h * 0.32}`, scale: 1 });
+    const cx = w * 0.5;
+    const cy = h * 0.28;          // circle center y
+    const cr  = h * 0.16;         // circle radius in px (matches ry="16%")
+
+    // Trapezoid shaft: narrow at top where it meets the circle, widens toward bottom
+    const topY  = cy + cr * 0.82;  // slightly inside circle bottom
+    const botY  = h * 0.78;
+    const topHW = w * 0.028;       // half-width at shaft top (narrow)
+    const botHW = w * 0.078;       // half-width at shaft bottom (wide)
+    setShaftPts(`${cx - topHW},${topY} ${cx + topHW},${topY} ${cx + botHW},${botY} ${cx - botHW},${botY}`);
+
+    gsap.set(grp, { svgOrigin: `${cx} ${cy}`, scale: 1 });
+
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: hero,
+        trigger: inner,
+        pin: true,
+        pinSpacing: true,
         start: "top top",
-        end: "bottom bottom",
+        end: "+=200%",   // pin for 2x viewport height of scroll
         scrub: 1.5,
       },
     });
-    tl.to(grp, { scale: 14, ease: "power1.in" });
+    // Keyhole expands to fill screen; text fades in the first third
+    tl.to(grp, { scale: 14, ease: "power1.in" }, 0);
+    if (text) tl.to(text, { opacity: 0, ease: "none", duration: 0.35 }, 0);
+
     return () => { tl.kill(); };
   }, []);
 
@@ -351,8 +373,6 @@ export default function Page() {
 
   // Parallax refs
   const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroOpacity = useTransform(heroScroll, [0, 0.5], [1, 0]);
 
   // Sky cloud parallax
   const { scrollYProgress: skyProgress } = useScroll({ target: skySection, offset: ["start end", "end start"] });
@@ -365,8 +385,8 @@ export default function Page() {
       <Cursor />
 
       {/* ── ACT 1: THE KEYHOLE ──────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative" style={{ height: "300vh" }}>
-        <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", background: "#000" }}>
+      <section ref={heroRef}>
+        <div ref={heroInnerRef} style={{ height: "100vh", overflow: "hidden", background: "#000" }}>
 
           {/* Vimeo video — full-screen background */}
           <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
@@ -397,19 +417,19 @@ export default function Page() {
                 {/* White = opaque black overlay; black shapes = transparent (video shows through) */}
                 <rect width="100%" height="100%" fill="white" />
                 <g ref={keyholeGroupRef}>
-                  {/* Circle — top of keyhole. rx/ry tuned so it reads as a circle on 16:9 */}
-                  <ellipse cx="50%" cy="32%" rx="9%" ry="16%" fill="black" />
-                  {/* Shaft — bottom of keyhole, slightly overlapping circle */}
-                  <rect x="46.5%" y="46.5%" width="7%" height="32%" rx="0.8%" fill="black" />
+                  {/* Circle — top of keyhole, tuned circular on 16:9 (9%w ≈ 16%h in px) */}
+                  <ellipse cx="50%" cy="28%" rx="9%" ry="16%" fill="black" />
+                  {/* Trapezoid shaft — narrow at top, widens toward bottom */}
+                  {shaftPts && <polygon points={shaftPts} fill="black" />}
                 </g>
               </mask>
             </defs>
             <rect width="100%" height="100%" fill="black" mask="url(#keyhole-mask)" />
           </svg>
 
-          {/* Hero text — white, fades out as the keyhole expands */}
-          <motion.div
-            style={{ opacity: heroOpacity }}
+          {/* Hero text — white; GSAP fades it via heroTextRef */}
+          <div
+            ref={heroTextRef}
             className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-8"
           >
             <motion.p
@@ -447,7 +467,7 @@ export default function Page() {
                 See the Back Nine →
               </MagneticBtn>
             </motion.div>
-          </motion.div>
+          </div>
 
         </div>
       </section>
