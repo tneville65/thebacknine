@@ -557,7 +557,7 @@ export default function Page() {
       </section>
 
       {/* ── ACT 3.5: PAYMENT ANIMATION ─────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "100vh", background: "#0a0a0a" }}>
+      <section style={{ background: "#0a0a0a" }}>
         <PaymentAnimation />
       </section>
 

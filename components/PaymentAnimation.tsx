@@ -344,7 +344,7 @@ const Scene = () => (
 
 export default function PaymentAnimation() {
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%", background: "#0a0a0a" }}>
+    <div style={{ position: "relative", width: "100%", height: "100vh", background: "#0a0a0a" }}>
       <Stage width={900} height={1000} duration={DUR}>
         <Scene />
       </Stage>
