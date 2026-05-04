@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 const ClubSwing = dynamic(() => import("@/components/ClubSwing"), { ssr: false });
+const PaymentAnimation = dynamic(() => import("@/components/PaymentAnimation"), { ssr: false });
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -553,6 +554,11 @@ export default function Page() {
             </MagneticBtn>
           </FadeUp>
         </div>
+      </section>
+
+      {/* ── ACT 3.5: PAYMENT ANIMATION ─────────────────────────────────────── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "100vh", background: "#0a0a0a" }}>
+        <PaymentAnimation />
       </section>
 
       {/* ── ACT 4: BACK NINE + CALCULATOR ──────────────────────────────────── */}
