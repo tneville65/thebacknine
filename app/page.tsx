@@ -298,7 +298,7 @@ export default function Page() {
   useEffect(() => {
     const grp = keyholeGroupRef.current;
     const hero = heroRef.current;
-    if (!grp || !hero) return;
+    if (!grp || !hero) return undefined;
     const w = window.innerWidth;
     const h = window.innerHeight;
     gsap.set(grp, { svgOrigin: `${w * 0.5} ${h * 0.32}`, scale: 1 });
@@ -311,7 +311,7 @@ export default function Page() {
       },
     });
     tl.to(grp, { scale: 14, ease: "power1.in" });
-    return () => tl.kill();
+    return () => { tl.kill(); };
   }, []);
 
   // Ball arc on scroll
