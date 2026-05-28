@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 const ClubSwing = dynamic(() => import("@/components/ClubSwing"), { ssr: false });
+const PaymentAnimation = dynamic(() => import("@/components/PaymentAnimation"), { ssr: false });
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -291,6 +292,49 @@ function Calculator() {
 export default function Page() {
   const ballRef = useRef<HTMLDivElement>(null);
   const skySection = useRef<HTMLDivElement>(null);
+  const keyholeGroupRef = useRef<SVGGElement>(null);
+  const heroInnerRef = useRef<HTMLDivElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
+  const [shaftPts, setShaftPts] = useState("");
+
+  // Keyhole zoom — GSAP pins the hero until the keyhole fully opens
+  useEffect(() => {
+    const grp = keyholeGroupRef.current;
+    const inner = heroInnerRef.current;
+    const text = heroTextRef.current;
+    if (!grp || !inner) return undefined;
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const cx = w * 0.5;
+    const cy = h * 0.28;          // circle center y
+    const cr  = h * 0.16;         // circle radius in px (matches ry="16%")
+
+    // Trapezoid shaft: narrow at top where it meets the circle, widens toward bottom
+    const topY  = cy + cr * 0.82;  // slightly inside circle bottom
+    const botY  = h * 0.78;
+    const topHW = w * 0.028;       // half-width at shaft top (narrow)
+    const botHW = w * 0.078;       // half-width at shaft bottom (wide)
+    setShaftPts(`${cx - topHW},${topY} ${cx + topHW},${topY} ${cx + botHW},${botY} ${cx - botHW},${botY}`);
+
+    gsap.set(grp, { svgOrigin: `${cx} ${cy}`, scale: 1 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: inner,
+        pin: true,
+        pinSpacing: true,
+        start: "top top",
+        end: "+=200%",   // pin for 2x viewport height of scroll
+        scrub: 1.5,
+      },
+    });
+    // Keyhole expands to fill screen; text fades in the first third
+    tl.to(grp, { scale: 14, ease: "power1.in" }, 0);
+    if (text) tl.to(text, { opacity: 0, ease: "none", duration: 0.35 }, 0);
+
+    return () => { tl.kill(); };
+  }, []);
 
   // Ball arc on scroll
   useEffect(() => {
@@ -329,11 +373,6 @@ export default function Page() {
 
   // Parallax refs
   const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const treesY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
-  const skyY = useTransform(heroScroll, [0, 1], ["0%", "15%"]);
-  const heroTextY = useTransform(heroScroll, [0, 1], ["0%", "40%"]);
-  const heroOpacity = useTransform(heroScroll, [0, 0.7], [1, 0]);
 
   // Sky cloud parallax
   const { scrollYProgress: skyProgress } = useScroll({ target: skySection, offset: ["start end", "end start"] });
@@ -345,95 +384,92 @@ export default function Page() {
     <div className="overflow-x-hidden">
       <Cursor />
 
-      {/* ── ACT 1: THE FAIRWAY ──────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative hero-sky overflow-hidden" style={{ minHeight: "100vh" }}>
-        {/* NOTE: SWAP golf-aerial.jpg with a real course photo for production */}
-        {/* bg-image layer: <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/golf-aerial.jpg')" }} /> */}
+      {/* ── ACT 1: THE KEYHOLE ──────────────────────────────────────────────── */}
+      <section ref={heroRef}>
+        <div ref={heroInnerRef} style={{ height: "100vh", overflow: "hidden", background: "#000" }}>
 
-        {/* Parallax sky layer */}
-        <motion.div style={{ y: skyY }} className="absolute inset-0">
-          {/* Sun */}
-          <div className="absolute top-[12%] right-[18%] w-20 h-20 rounded-full" style={{ background: "radial-gradient(circle, rgba(255,248,200,0.9) 0%, rgba(255,220,100,0.4) 50%, transparent 70%)" }} />
-          <div className="absolute top-[10%] right-[17%] w-10 h-10 rounded-full" style={{ background: "rgba(255,255,240,0.85)", boxShadow: "0 0 40px 20px rgba(255,240,150,0.3)" }} />
+          {/* Vimeo video — full-screen background */}
+          <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+            <div style={{
+              position: "absolute",
+              top: "50%", left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "177.78vh",
+              minWidth: "100%",
+              height: "56.25vw",
+              minHeight: "100%",
+            }}>
+              <iframe
+                src="https://player.vimeo.com/video/1185999346?badge=0&autopause=0&player_id=0&app_id=58479&background=1"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                title="back nine v2"
+              />
+            </div>
+          </div>
 
-          {/* Static clouds */}
-          <Cloud style={{ top: "6%", left: "4%" }} size={1.3} />
-          <Cloud style={{ top: "4%", left: "52%" }} size={0.8} />
-          <Cloud style={{ top: "10%", right: "5%" }} size={1.0} />
-          <Cloud style={{ top: "18%", left: "30%" }} size={0.65} />
-          <Cloud style={{ top: "22%", right: "25%" }} size={0.5} />
-        </motion.div>
+          {/* SVG mask — black field with a keyhole-shaped hole revealing the video.
+              GSAP scales the <g> up on scroll, zooming the user "through" the keyhole. */}
+          <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}>
+            <defs>
+              <mask id="keyhole-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+                {/* White = opaque black overlay; black shapes = transparent (video shows through) */}
+                <rect width="100%" height="100%" fill="white" />
+                <g ref={keyholeGroupRef}>
+                  {/* Circle — top of keyhole, tuned circular on 16:9 (9%w ≈ 16%h in px) */}
+                  <ellipse cx="50%" cy="28%" rx="9%" ry="16%" fill="black" />
+                  {/* Trapezoid shaft — narrow at top, widens toward bottom */}
+                  {shaftPts && <polygon points={shaftPts} fill="black" />}
+                </g>
+              </mask>
+            </defs>
+            <rect width="100%" height="100%" fill="black" mask="url(#keyhole-mask)" />
+          </svg>
 
-        {/* Parallax trees */}
-        <motion.div style={{ y: treesY }} className="absolute bottom-0 left-0 right-0 z-10">
-          <Trees opacity={1} />
-        </motion.div>
+          {/* Hero text — white; GSAP fades it via heroTextRef */}
+          <div
+            ref={heroTextRef}
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-8"
+          >
+            <motion.p
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.7 }}
+              className="text-white/55 text-xs uppercase tracking-[0.5em] mb-8 font-medium"
+            >
+              The KeyArx Group
+            </motion.p>
 
-        {/* Fairway ground */}
-        <div className="absolute bottom-0 left-0 right-0 h-1/4" style={{ background: "linear-gradient(0deg, #3d6b20, #5a9040)", borderRadius: "50% 50% 0 0 / 10px 10px 0 0" }} />
+            <div className="overflow-hidden mb-2">
+              <motion.h1
+                initial={{ y: "110%", opacity: 0 }} animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-none block"
+              >
+                The front nine
+              </motion.h1>
+            </div>
+            <div className="overflow-hidden mb-12">
+              <motion.h1
+                initial={{ y: "110%", opacity: 0 }} animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
+                className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-white/45 leading-none italic block"
+              >
+                is your career.
+              </motion.h1>
+            </div>
 
-        {/* Flag 1 — flag at TOP of pole */}
-        <div className="absolute z-20 flex flex-col items-center" style={{ bottom: "18%", left: "62%" }}>
-          <motion.div initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }} style={{ originY: 1 }} className="flex flex-col items-start">
-            <div className="w-7 h-5 bg-[#c0392b] mb-0" style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }} />
-            <div className="w-px h-20 bg-gray-700 ml-0" />
-          </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.7 }}>
+              <MagneticBtn
+                href="#tee"
+                className="bg-[#c0392b] hover:bg-[#a93226] text-white font-bold px-12 py-4 uppercase tracking-widest text-sm transition-all duration-300 hover:shadow-[0_8px_40px_rgba(192,57,43,0.5)]"
+              >
+                See the Back Nine →
+              </MagneticBtn>
+            </motion.div>
+          </div>
+
         </div>
-
-        {/* Flag 2 (distant) — flag at TOP of pole */}
-        <div className="absolute z-20 opacity-40 flex flex-col items-center" style={{ bottom: "22%", left: "80%" }}>
-          <div className="flex flex-col items-start">
-            <div className="w-5 h-3.5 bg-white mb-0" style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }} />
-            <div className="w-px h-12 bg-gray-700" />
-          </div>
-        </div>
-
-        {/* Hero text */}
-        <motion.div style={{ y: heroTextY, opacity: heroOpacity }}
-          className="relative z-20 flex flex-col items-center justify-center min-h-screen text-center px-8 pb-32 pt-24">
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
-            className="text-green-900/55 text-xs uppercase tracking-[0.5em] mb-8 font-medium">
-            The KeyArx Group
-          </motion.p>
-
-          <div className="overflow-hidden mb-2">
-            <motion.h1
-              initial={{ y: "110%", opacity: 0 }}
-              animate={{ y: "0%", opacity: 1 }}
-              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-green-950 leading-none sky-text block"
-            >
-              The front nine
-            </motion.h1>
-          </div>
-          <div className="overflow-hidden mb-12">
-            <motion.h1
-              initial={{ y: "110%", opacity: 0 }}
-              animate={{ y: "0%", opacity: 1 }}
-              transition={{ duration: 1, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-green-900/45 leading-none italic sky-text block"
-            >
-              is your career.
-            </motion.h1>
-          </div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.7 }}>
-            <MagneticBtn
-              href="#tee"
-              className="bg-[#c0392b] hover:bg-[#a93226] text-white font-bold px-12 py-4 uppercase tracking-widest text-sm transition-all duration-300 hover:shadow-[0_8px_40px_rgba(192,57,43,0.5)]"
-            >
-              See the Back Nine →
-            </MagneticBtn>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
-          <span className="text-green-900/30 text-[10px] uppercase tracking-[0.4em]">Scroll</span>
-          <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-            className="w-px h-10 bg-gradient-to-b from-green-900/40 to-transparent" />
-        </motion.div>
       </section>
 
       {/* ── ACT 2: ADDRESS ──────────────────────────────────────────────────── */}
@@ -553,6 +589,11 @@ export default function Page() {
             </MagneticBtn>
           </FadeUp>
         </div>
+      </section>
+
+      {/* ── ACT 3.5: PAYMENT ANIMATION ─────────────────────────────────────── */}
+      <section style={{ background: "#0a0a0a" }}>
+        <PaymentAnimation />
       </section>
 
       {/* ── ACT 4: BACK NINE + CALCULATOR ──────────────────────────────────── */}
