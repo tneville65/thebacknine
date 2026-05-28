@@ -3,8 +3,8 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: auto; }
 body {
-  background: #f5f0e8;
-  color: #1a1a1a;
+  background: #0a0a0a;
+  color: #e8e8e8;
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
   cursor: none;
@@ -36,47 +36,10 @@ body {
   background: rgba(192,57,43,0.05);
 }
 
-/* Hero sky — layered CSS landscape */
-.hero-sky {
-  background:
-    /* Sun */
-    radial-gradient(circle 80px at 78% 22%, rgba(255,240,180,0.7) 0%, transparent 100%),
-    radial-gradient(circle 200px at 78% 22%, rgba(255,220,120,0.15) 0%, transparent 100%),
-    /* Sky gradient */
-    linear-gradient(180deg,
-      #1a6b9a 0%,
-      #3a8fc7 15%,
-      #60aad4 30%,
-      #87c4e0 50%,
-      #b5d8ea 65%,
-      #c8e6c0 80%,
-      #4a8a42 85%,
-      #3d7a35 100%
-    );
-}
-
-/* Fairway section */
-.fairway-section {
-  background: linear-gradient(180deg,
-    #2d5016 0%,
-    #3d6b20 20%,
-    #4a8230 50%,
-    #5a9a3a 80%,
-    #68b040 100%
-  );
-}
-
-/* Sky section */
-.open-sky {
-  background: linear-gradient(180deg,
-    #1565a8 0%,
-    #2e84c8 20%,
-    #5aaee0 45%,
-    #85c8f0 65%,
-    #a8d8f5 80%,
-    #c8eaf5 100%
-  );
-}
+/* Dark section backgrounds */
+.hero-sky    { background: #0a0a0a; }
+.fairway-section { background: #111111; }
+.open-sky    { background: #0d0d0d; }
 
 /* Smooth section transitions */
 .section-transition {

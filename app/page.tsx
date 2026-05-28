@@ -193,34 +193,34 @@ function Calculator() {
     <div className="max-w-2xl mx-auto space-y-6">
 
       {/* Static KeyArx numbers */}
-      <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
-        <p className="text-gray-400 text-xs uppercase tracking-[0.3em] mb-6 text-center">Based on $250,000/year · 10-year program</p>
+      <div className="bg-[#181818] rounded-2xl border border-white/[0.06] p-8 md:p-10">
+        <p className="text-white/30 text-xs uppercase tracking-[0.3em] mb-6 text-center">Based on $250,000/year · 10-year program</p>
 
         <div className="space-y-4 mb-6">
-          <div className="border border-gray-100 rounded-xl p-6">
+          <div className="border border-white/10 rounded-xl p-6">
             <div className="flex justify-between items-center mb-1">
-              <span className="text-gray-500 text-sm">Option 1 — Overfunded Life Insurance</span>
-              <span className="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Tax-Free</span>
+              <span className="text-white/50 text-sm">Option 1 — Overfunded Life Insurance</span>
+              <span className="text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full font-medium">Tax-Free</span>
             </div>
-            <div className="font-serif text-4xl font-bold text-gray-900 mt-2 tabular-nums">{fmt(opt1)}</div>
-            <div className="text-gray-400 text-xs mt-1">per year · age 51 to 100</div>
+            <div className="font-serif text-4xl font-bold text-white mt-2 tabular-nums">{fmt(opt1)}</div>
+            <div className="text-white/30 text-xs mt-1">per year · age 51 to 100</div>
           </div>
 
-          <div className="border-2 border-[#c0392b] rounded-xl p-6 relative overflow-hidden bg-red-50/30">
+          <div className="border-2 border-[#c0392b] rounded-xl p-6 relative overflow-hidden bg-[#c0392b]/5">
             <div className="absolute top-3 right-3 bg-[#c0392b] text-white text-[9px] uppercase tracking-widest px-3 py-1 rounded-full font-bold">Premium Financing</div>
             <div className="flex justify-between items-center mb-1">
-              <span className="text-gray-600 text-sm font-medium">Option 2 — Premium Financing</span>
-              <span className="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Tax-Free</span>
+              <span className="text-white/70 text-sm font-medium">Option 2 — Premium Financing</span>
+              <span className="text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full font-medium">Tax-Free</span>
             </div>
             <div className="font-serif text-5xl font-bold text-[#c0392b] mt-2 tabular-nums">{fmt(opt2)}</div>
-            <div className="text-gray-500 text-xs mt-1">per year · age 51 to 100</div>
+            <div className="text-white/40 text-xs mt-1">per year · age 51 to 100</div>
           </div>
         </div>
 
         {/* Disclosure */}
-        <div className="bg-gray-50 rounded-lg p-4 mb-6">
-          <p className="text-gray-400 text-[11px] leading-relaxed">
-            <strong className="text-gray-500">Disclosure:</strong> The figures above — $727,819/year and $1,318,516/year — are based on a specific illustrated example using a $250,000 annual contribution over 10 years. All numbers are subject to change based on individual premium, underwriting, and carrier terms. Eligibility for this program is not guaranteed and is subject to underwriting approval. Results will vary.
+        <div className="bg-white/[0.04] rounded-lg p-4 mb-6">
+          <p className="text-white/30 text-[11px] leading-relaxed">
+            <strong className="text-white/40">Disclosure:</strong> The figures above — $727,819/year and $1,318,516/year — are based on a specific illustrated example using a $250,000 annual contribution over 10 years. All numbers are subject to change based on individual premium, underwriting, and carrier terms. Eligibility for this program is not guaranteed and is subject to underwriting approval. Results will vary.
           </p>
         </div>
 
@@ -233,17 +233,17 @@ function Calculator() {
       </div>
 
       {/* NFL Pension Comparison */}
-      <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
-        <p className="text-gray-400 text-xs uppercase tracking-[0.3em] mb-2 text-center">The NFL Pension — Put in Perspective</p>
-        <p className="text-gray-500 text-sm text-center leading-relaxed mb-8 max-w-lg mx-auto">
-          The league already knows athletes need a private pension. The NFLPA Retirement Plan (est. 1968) pays <strong className="text-gray-700">$836/month per Credited Season</strong> starting at age 55 — or nearly <strong className="text-gray-700">$2,200/month per season</strong> if you wait until 65.
+      <div className="bg-[#181818] rounded-2xl border border-white/[0.06] p-8 md:p-10">
+        <p className="text-white/30 text-xs uppercase tracking-[0.3em] mb-2 text-center">The NFL Pension — Put in Perspective</p>
+        <p className="text-white/50 text-sm text-center leading-relaxed mb-8 max-w-lg mx-auto">
+          The league already knows athletes need a private pension. The NFLPA Retirement Plan (est. 1968) pays <strong className="text-white/70">$836/month per Credited Season</strong> starting at age 55 — or nearly <strong className="text-white/70">$2,200/month per season</strong> if you wait until 65.
         </p>
 
         {/* Credited Seasons Slider */}
         <div className="mb-2">
           <div className="flex justify-between items-baseline mb-2">
-            <p className="text-gray-600 text-xs uppercase tracking-widest font-medium">Your Credited Seasons</p>
-            <span className="font-serif text-4xl font-bold text-gray-900">{seasons}</span>
+            <p className="text-white/40 text-xs uppercase tracking-widest font-medium">Your Credited Seasons</p>
+            <span className="font-serif text-4xl font-bold text-white">{seasons}</span>
           </div>
           <input
             type="range"
@@ -258,29 +258,28 @@ function Calculator() {
 
         {/* NFL pension results */}
         <div className="grid grid-cols-2 gap-3 mb-6">
-          <div className="bg-gray-50 rounded-xl p-5 text-center">
-            <p className="text-gray-400 text-xs uppercase tracking-widest mb-2">NFL Pension at 55</p>
-            <p className="font-serif text-2xl font-bold text-gray-700">{fmt(nflAnnual55)}</p>
-            <p className="text-gray-400 text-xs mt-1">per year</p>
+          <div className="bg-white/[0.05] rounded-xl p-5 text-center">
+            <p className="text-white/35 text-xs uppercase tracking-widest mb-2">NFL Pension at 55</p>
+            <p className="font-serif text-2xl font-bold text-white/80">{fmt(nflAnnual55)}</p>
+            <p className="text-white/30 text-xs mt-1">per year</p>
           </div>
-          <div className="bg-gray-50 rounded-xl p-5 text-center">
-            <p className="text-gray-400 text-xs uppercase tracking-widest mb-2">NFL Pension at 65</p>
-            <p className="font-serif text-2xl font-bold text-gray-700">{fmt(nflAnnual65)}</p>
-            <p className="text-gray-400 text-xs mt-1">per year</p>
+          <div className="bg-white/[0.05] rounded-xl p-5 text-center">
+            <p className="text-white/35 text-xs uppercase tracking-widest mb-2">NFL Pension at 65</p>
+            <p className="font-serif text-2xl font-bold text-white/80">{fmt(nflAnnual65)}</p>
+            <p className="text-white/30 text-xs mt-1">per year</p>
           </div>
         </div>
 
         {/* The comparison punchline */}
-        <div className="border-2 border-[#c0392b]/30 rounded-xl p-6 bg-red-50/20 text-center mb-4">
-          <p className="text-gray-500 text-xs uppercase tracking-widest mb-3">To match the KeyArx program at age 65</p>
+        <div className="border-2 border-[#c0392b]/30 rounded-xl p-6 bg-[#c0392b]/5 text-center mb-4">
+          <p className="text-white/40 text-xs uppercase tracking-widest mb-3">To match the KeyArx program at age 65</p>
           <p className="font-serif text-5xl font-bold text-[#c0392b] mb-2">{seasonsToMatchKeyArx65}</p>
-          <p className="text-gray-500 text-sm">Credited NFL seasons needed to equal <strong>{fmt(opt2)}/year</strong> from the pension alone</p>
-
+          <p className="text-white/50 text-sm">Credited NFL seasons needed to equal <strong className="text-white/70">{fmt(opt2)}/year</strong> from the pension alone</p>
         </div>
 
         <div className="bg-[#c0392b]/5 rounded-xl p-5 text-center">
-          <p className="text-gray-600 text-sm leading-relaxed">
-            The NFL pension is <strong>a start</strong> — not a plan. A KeyArx structure on a $250K/year contribution delivers <strong className="text-[#c0392b]">{fmt(opt2)}/year tax-free</strong> — more than most players will ever see from the league pension, regardless of how long they played.
+          <p className="text-white/60 text-sm leading-relaxed">
+            The NFL pension is <strong className="text-white/80">a start</strong> — not a plan. A KeyArx structure on a $250K/year contribution delivers <strong className="text-[#c0392b]">{fmt(opt2)}/year tax-free</strong> — more than most players will ever see from the league pension, regardless of how long they played.
           </p>
         </div>
       </div>
@@ -474,14 +473,8 @@ export default function Page() {
 
       {/* ── ACT 2: ADDRESS ──────────────────────────────────────────────────── */}
       <section id="tee" className="fairway-section relative overflow-hidden" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {/* Fairway texture lines */}
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0px, transparent 1px, transparent 60px)", backgroundSize: "60px 100%" }} />
-
         {/* Club swing animation */}
         <ClubSwing />
-
-        {/* Trees silhouette */}
-        <Trees className="z-10" opacity={0.5} />
 
         {/* Content */}
         <div className="relative z-20 text-center px-8 max-w-3xl">
@@ -491,7 +484,7 @@ export default function Page() {
           <SplitReveal
             text="Most athletes walk off the course not knowing what they left behind."
             delay={0.1}
-            className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.15] mb-8 sky-text"
+            className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.15] mb-8"
           />
           <FadeUp delay={0.3}>
             <p className="text-white/70 text-xl md:text-2xl leading-relaxed max-w-2xl mx-auto mb-14">
@@ -502,7 +495,7 @@ export default function Page() {
           <FadeUp delay={0.45}>
             <MagneticBtn
               href="#sky"
-              className="inline-block border-2 border-white/70 hover:border-white hover:bg-white hover:text-green-800 text-white font-bold px-12 py-4 uppercase tracking-widest text-sm transition-all duration-300"
+              className="inline-block border-2 border-white/70 hover:border-white hover:bg-white hover:text-black text-white font-bold px-12 py-4 uppercase tracking-widest text-sm transition-all duration-300"
             >
               Step up to the tee
             </MagneticBtn>
@@ -512,20 +505,6 @@ export default function Page() {
 
       {/* ── ACT 3: THE SKY ──────────────────────────────────────────────────── */}
       <section id="sky" ref={skySection} className="open-sky relative overflow-hidden" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-
-        {/* Parallax clouds */}
-        <motion.div style={{ x: c1x, position: "absolute", top: "8%", left: "4%" }}>
-          <Cloud size={1.5} />
-        </motion.div>
-        <motion.div style={{ x: c2x, position: "absolute", top: "14%", right: "8%" }}>
-          <Cloud size={1.1} />
-        </motion.div>
-        <motion.div style={{ x: c3x, position: "absolute", top: "5%", left: "42%" }}>
-          <Cloud size={0.8} />
-        </motion.div>
-        <Cloud style={{ position: "absolute", top: "28%", left: "18%" }} size={0.6} />
-        <Cloud style={{ position: "absolute", top: "22%", right: "30%" }} size={0.9} />
-        <Cloud style={{ position: "absolute", top: "35%", right: "12%" }} size={0.55} />
 
         {/* Animated ball */}
         <div
@@ -552,12 +531,12 @@ export default function Page() {
           <SplitReveal
             text="Over the course of your life,"
             delay={0}
-            className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-snug sky-text"
+            className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-snug"
           />
           <SplitReveal
             text="would an extra"
             delay={0.2}
-            className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-snug sky-text"
+            className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-snug"
           />
           <FadeUp delay={0.5} className="my-4">
             <div
@@ -571,13 +550,13 @@ export default function Page() {
                 letterSpacing: "-0.02em",
               }}
             >
-              $30 million
+              $X million
             </div>
           </FadeUp>
           <SplitReveal
             text="mean something to you?"
             delay={0.8}
-            className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-snug mb-14 sky-text"
+            className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-snug mb-14"
           />
 
           <FadeUp delay={1.1}>
@@ -597,23 +576,23 @@ export default function Page() {
       </section>
 
       {/* ── ACT 4: BACK NINE + CALCULATOR ──────────────────────────────────── */}
-      <section id="calculator" className="relative py-40 overflow-hidden" style={{ background: "linear-gradient(180deg, #a8d8f0 0%, #d4ecc0 8%, #f5f0e8 18%)" }}>
+      <section id="calculator" className="relative py-40 overflow-hidden" style={{ background: "#111111" }}>
         {/* Landing flag */}
         <div className="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-20">
-          <div className="w-px h-16 bg-gray-600" />
+          <div className="w-px h-16 bg-white/40" />
           <div className="w-6 h-4 bg-[#c0392b] mb-1" style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }} />
-          <p className="text-gray-500 text-[10px] uppercase tracking-[0.4em] font-medium mt-1">Hole 10</p>
+          <p className="text-white/40 text-[10px] uppercase tracking-[0.4em] font-medium mt-1">Hole 10</p>
         </div>
 
         <div className="max-w-3xl mx-auto px-8 pt-12">
           <FadeUp className="text-center mb-16">
-            <p className="text-gray-400 text-xs uppercase tracking-[0.5em] mb-6">The back nine</p>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+            <p className="text-white/30 text-xs uppercase tracking-[0.5em] mb-6">The back nine</p>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
               Create a Private Pension.<br />
               <span className="text-[#c0392b]">Level up your income structure.</span><br />
               <span className="text-[#c0392b] font-serif font-bold">Preserve your lifestyle.</span>
             </h2>
-            <p className="text-gray-500 mt-6 text-lg">Use the slider to see how your pension may compare.</p>
+            <p className="text-white/50 mt-6 text-lg">Use the slider to see how your pension may compare.</p>
           </FadeUp>
 
           <FadeUp delay={0.15}>
@@ -623,28 +602,25 @@ export default function Page() {
       </section>
 
       {/* ── ACT 5: THE CLUBHOUSE ────────────────────────────────────────────── */}
-      <section className="py-40 relative overflow-hidden" style={{ background: "#f5f0e8" }}>
-        {/* Subtle fairway lines */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(0,0,0,1) 80px, rgba(0,0,0,1) 81px)" }} />
-
+      <section className="py-40 relative overflow-hidden" style={{ background: "#0a0a0a" }}>
         <div className="max-w-3xl mx-auto px-8 text-center relative z-10">
           {/* Hole marker */}
           <FadeUp>
             <div className="inline-flex flex-col items-center mb-12 opacity-25">
-              <div className="w-px h-16 bg-gray-700" />
+              <div className="w-px h-16 bg-white/60" />
               <div className="w-7 h-5 bg-[#c0392b]" style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }} />
-              <p className="text-gray-500 text-[10px] uppercase tracking-[0.4em] mt-2">The 19th Hole</p>
+              <p className="text-white/50 text-[10px] uppercase tracking-[0.4em] mt-2">The 19th Hole</p>
             </div>
           </FadeUp>
 
           <SplitReveal
             text="Ready to talk about the back nine?"
             delay={0}
-            className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-8"
+            className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-8"
           />
 
           <FadeUp delay={0.3}>
-            <p className="text-gray-500 text-xl leading-relaxed max-w-xl mx-auto mb-14">
+            <p className="text-white/50 text-xl leading-relaxed max-w-xl mx-auto mb-14">
               No pitch. No pressure. A straight conversation about what your money could actually be doing — built for your career window.
             </p>
           </FadeUp>
@@ -658,14 +634,14 @@ export default function Page() {
             </MagneticBtn>
           </FadeUp>
 
-          <FadeUp delay={0.6} className="mt-20 pt-12 border-t border-gray-200">
-            <p className="text-gray-400 text-sm leading-relaxed">
-              <span className="font-semibold text-gray-600">The KeyArx Group</span> · Paul Cella, CLU, ChFC<br />
-              <a href="mailto:paul@keyarx.com" className="hover-line text-gray-400 hover:text-gray-600 transition-colors">paul@keyarx.com</a>
+          <FadeUp delay={0.6} className="mt-20 pt-12 border-t border-white/10">
+            <p className="text-white/40 text-sm leading-relaxed">
+              <span className="font-semibold text-white/60">The KeyArx Group</span> · Paul Cella, CLU, ChFC<br />
+              <a href="mailto:paul@keyarx.com" className="hover-line text-white/40 hover:text-white/70 transition-colors">paul@keyarx.com</a>
               {" · "}
-              <a href="tel:7329839830" className="hover-line text-gray-400 hover:text-gray-600 transition-colors">(732) 983-9830</a>
+              <a href="tel:7329839830" className="hover-line text-white/40 hover:text-white/70 transition-colors">(732) 983-9830</a>
             </p>
-            <p className="text-gray-300 text-xs mt-4 max-w-lg mx-auto leading-relaxed">
+            <p className="text-white/20 text-xs mt-4 max-w-lg mx-auto leading-relaxed">
               Securities offered through League Capital Markets, LLC, Member FINRA/SIPC. Investment advice offered through Research Financial Strategies and Alliance Global Partners, registered investment advisors.
             </p>
           </FadeUp>
